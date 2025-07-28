@@ -17,7 +17,7 @@ class RealEstateData:
                 self.files = [
                     os.path.join(data_dir, f)
                     for f in os.listdir(data_dir)
-                    if f.endswith(".csv")
+                    if f.endswith(".parquet")
                 ]
                 if not self.files:
                     print(f"No CSV files found in directory '{data_dir}'.")
@@ -45,12 +45,8 @@ class RealEstateData:
                     print(f"Warning: File {file_path} does not exist. Skipping.")
                     continue
                 try:
-                    df = pl.read_csv(
+                    df = pl.read_parquet(
                         file_path,
-                        infer_schema_length=0,
-                        has_header=True,
-                        null_values=["", "None", "null", "NA", "N/A"],
-                        ignore_errors=True,
                     )
                     print(f"Successfully read {file_path}, shape: {df.shape}")
 
